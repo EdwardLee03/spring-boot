@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot;
 
@@ -30,19 +15,28 @@ import org.springframework.util.StringUtils;
 
 /**
  * Logs application information on startup.
+ * 记录应用的启动信息。
  *
  * @author Phillip Webb
  * @author Dave Syer
  */
 class StartupInfoLogger {
 
+	/**
+	 * 应用主类
+	 */
 	private final Class<?> sourceClass;
 
 	StartupInfoLogger(Class<?> sourceClass) {
 		this.sourceClass = sourceClass;
 	}
 
-	public void logStarting(Log log) {
+	// 记录信息
+
+	/**
+	 * 记录应用启动信息。
+	 */
+	void logStarting(Log log) {
 		Assert.notNull(log, "Log must not be null");
 		if (log.isInfoEnabled()) {
 			log.info(getStartupMessage());
@@ -52,33 +46,55 @@ class StartupInfoLogger {
 		}
 	}
 
-	public void logStarted(Log log, StopWatch stopWatch) {
+	/**
+	 * 记录应用启动完成信息。
+	 */
+	void logStarted(Log log, StopWatch stopWatch) {
 		if (log.isInfoEnabled()) {
 			log.info(getStartedMessage(stopWatch));
 		}
 	}
 
+	// 生成信息
+
+	/**
+	 * 应用启动信息。
+	 * <pre>
+	 * 格式：
+	 * "Starting {ApplicationName} {Version} {On} {Pid} {Context}"
+	 * </pre>
+	 */
 	private String getStartupMessage() {
-		StringBuilder message = new StringBuilder();
-		message.append("Starting ");
-		message.append(getApplicationName());
-		message.append(getVersion(this.sourceClass));
-		message.append(getOn());
-		message.append(getPid());
-		message.append(getContext());
-		return message.toString();
+		return "Starting " +
+				getApplicationName() +
+				getVersion(this.sourceClass) +
+				getOn() +
+				getPid() +
+				getContext();
 	}
 
-	private StringBuilder getRunningMessage() {
-		StringBuilder message = new StringBuilder();
-		message.append("Running with Spring Boot");
-		message.append(getVersion(getClass()));
-		message.append(", Spring");
-		message.append(getVersion(ApplicationContext.class));
-		return message;
+	/**
+	 * 应用运行信息。
+	 * <pre>
+	 * 格式：
+	 * "Running with Spring Boot {Version}, Spring {ApplicationContextVersion}"
+	 * </pre>
+	 */
+	private String getRunningMessage() {
+		return "Running with Spring Boot" +
+				getVersion(this.sourceClass) +
+				", Spring" +
+				getVersion(ApplicationContext.class);
 	}
 
-	private StringBuilder getStartedMessage(StopWatch stopWatch) {
+	/**
+	 * 应用启动完成信息。
+	 * <pre>
+	 * 格式：
+	 * "Started {ApplicationName} in {TotalTimeSeconds} seconds (JVM running for {uptime})"
+	 * </pre>
+	 */
+	private String getStartedMessage(StopWatch stopWatch) {
 		StringBuilder message = new StringBuilder();
 		message.append("Started ");
 		message.append(getApplicationName());
@@ -86,28 +102,49 @@ class StartupInfoLogger {
 		message.append(stopWatch.getTotalTimeSeconds());
 		try {
 			double uptime = ManagementFactory.getRuntimeMXBean().getUptime() / 1000.0;
-			message.append(" seconds (JVM running for " + uptime + ")");
+			message.append(" seconds (JVM running for ").append(uptime).append(")");
 		}
-		catch (Throwable ex) {
+		catch (Exception ex) {
 			// No JVM time available
 		}
-		return message;
+		return message.toString();
 	}
 
+	// 应用信息
+
+	/**
+	 * 应用名称。
+	 * <pre>
+	 * 格式："ClassUtils.getShortName(sourceClass)/application"
+	 * </pre>
+	 */
 	private String getApplicationName() {
+		// 应用主类的短名称
 		return (this.sourceClass != null) ? ClassUtils.getShortName(this.sourceClass)
 				: "application";
 	}
 
+	/**
+	 * 应用主类的jar版本。
+	 * <pre>
+	 * 格式：" v{sourceClassImplementationVersion}"
+	 * </pre>
+	 */
 	private String getVersion(final Class<?> source) {
 		return getValue(" v", new Callable<Object>() {
 			@Override
-			public Object call() throws Exception {
+			public Object call() {
 				return source.getPackage().getImplementationVersion();
 			}
-		}, "");
+		});
 	}
 
+	/**
+	 * 主机名称。
+	 * <pre>
+	 * 格式：" on {LocalHost.HostName}"
+	 * </pre>
+	 */
 	private String getOn() {
 		return getValue(" on ", new Callable<Object>() {
 			@Override
@@ -117,32 +154,45 @@ class StartupInfoLogger {
 		});
 	}
 
+	/**
+	 * 进程id。
+	 * <pre>
+	 * 格式：" with PID {PID}"
+	 * </pre>
+	 */
 	private String getPid() {
 		return getValue(" with PID ", new Callable<Object>() {
 			@Override
-			public Object call() throws Exception {
+			public Object call() {
+				// 通过系统属性传递
 				return System.getProperty("PID");
 			}
 		});
 	}
 
+	/**
+	 * 应用上下文。
+	 * <pre>
+	 * 格式：" ({sourceClassAbsolutePath} started by {user.name} in {user.dir})"
+	 * </pre>
+	 */
 	private String getContext() {
 		String startedBy = getValue("started by ", new Callable<Object>() {
 			@Override
-			public Object call() throws Exception {
+			public Object call() {
 				return System.getProperty("user.name");
 			}
 		});
 		String in = getValue("in ", new Callable<Object>() {
 			@Override
-			public Object call() throws Exception {
+			public Object call() {
 				return System.getProperty("user.dir");
 			}
 		});
 		ApplicationHome home = new ApplicationHome(this.sourceClass);
 		String path = (home.getSource() != null) ? home.getSource().getAbsolutePath()
 				: "";
-		if (startedBy == null && path == null) {
+		if (startedBy.isEmpty() && path.isEmpty()) {
 			return "";
 		}
 		if (StringUtils.hasLength(startedBy) && StringUtils.hasLength(path)) {
