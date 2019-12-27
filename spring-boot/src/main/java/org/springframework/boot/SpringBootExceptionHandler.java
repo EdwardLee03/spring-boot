@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot;
 
@@ -27,6 +12,7 @@ import java.util.Set;
 /**
  * {@link UncaughtExceptionHandler} to suppress handling already logged exceptions and
  * dealing with system exit.
+ * 一种未捕获的异常处理器，禁止处理已记录的异常和处理系统退出。
  *
  * @author Phillip Webb
  */
@@ -40,12 +26,24 @@ class SpringBootExceptionHandler implements UncaughtExceptionHandler {
 		LOG_CONFIGURATION_MESSAGES = Collections.unmodifiableSet(messages);
 	}
 
+	/**
+	 * 已记录的异常处理器的线程本地变量
+	 */
 	private static LoggedExceptionHandlerThreadLocal handler = new LoggedExceptionHandlerThreadLocal();
 
+	/**
+	 * 未捕获的异常处理器
+	 */
 	private final UncaughtExceptionHandler parent;
 
+	/**
+	 * 已记录的异常列表
+	 */
 	private final List<Throwable> loggedExceptions = new ArrayList<Throwable>();
 
+	/**
+	 * 用于退出JVM的退出代码
+	 */
 	private int exitCode = 0;
 
 	SpringBootExceptionHandler(UncaughtExceptionHandler parent) {
@@ -122,11 +120,13 @@ class SpringBootExceptionHandler implements UncaughtExceptionHandler {
 
 		@Override
 		protected SpringBootExceptionHandler initialValue() {
+			// 当前执行线程的未捕获的异常处理器
 			SpringBootExceptionHandler handler = new SpringBootExceptionHandler(
 					Thread.currentThread().getUncaughtExceptionHandler());
+			// 将boot异常处理器设置为当前执行线程的未捕获的异常处理器
 			Thread.currentThread().setUncaughtExceptionHandler(handler);
 			return handler;
-		};
+		}
 
 	}
 

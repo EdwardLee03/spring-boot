@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot;
 
@@ -26,6 +11,7 @@ import org.springframework.util.Assert;
 /**
  * Maintains a collection of {@link ExitCodeGenerator} instances and allows the final exit
  * code to be calculated.
+ * 维护退出代码生成器实例的容器，并允许计算最终退出代码。
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -34,6 +20,9 @@ import org.springframework.util.Assert;
  */
 class ExitCodeGenerators implements Iterable<ExitCodeGenerator> {
 
+	/**
+	 * 退出代码生成器列表
+	 */
 	private List<ExitCodeGenerator> generators = new ArrayList<ExitCodeGenerator>();
 
 	public void addAll(Throwable exception, ExitCodeExceptionMapper... mappers) {
@@ -87,6 +76,7 @@ class ExitCodeGenerators implements Iterable<ExitCodeGenerator> {
 		int exitCode = 0;
 		for (ExitCodeGenerator generator : this.generators) {
 			try {
+				// 生成器的退出代码
 				int value = generator.getExitCode();
 				if (value > 0 && value > exitCode || value < 0 && value < exitCode) {
 					exitCode = value;
@@ -94,7 +84,7 @@ class ExitCodeGenerators implements Iterable<ExitCodeGenerator> {
 			}
 			catch (Exception ex) {
 				exitCode = (exitCode != 0) ? exitCode : 1;
-				ex.printStackTrace();
+//				ex.printStackTrace();
 			}
 		}
 		return exitCode;
@@ -105,8 +95,14 @@ class ExitCodeGenerators implements Iterable<ExitCodeGenerator> {
 	 */
 	private static class MappedExitCodeGenerator implements ExitCodeGenerator {
 
+		/**
+		 * 退出异常
+		 */
 		private final Throwable exception;
 
+		/**
+		 * 异常和退出代码之间的映射
+		 */
 		private final ExitCodeExceptionMapper mapper;
 
 		MappedExitCodeGenerator(Throwable exception, ExitCodeExceptionMapper mapper) {
