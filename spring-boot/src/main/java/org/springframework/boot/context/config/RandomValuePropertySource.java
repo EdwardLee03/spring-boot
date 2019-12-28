@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.config;
 
@@ -54,9 +39,13 @@ public class RandomValuePropertySource extends PropertySource<Random> {
 
 	/**
 	 * Name of the random {@link PropertySource}.
+	 * 随机值的属性源的名称
 	 */
 	public static final String RANDOM_PROPERTY_SOURCE_NAME = "random";
 
+	/**
+	 * 随机值属性的前缀
+	 */
 	private static final String PREFIX = "random.";
 
 	private static final Log logger = LogFactory.getLog(RandomValuePropertySource.class);
@@ -77,6 +66,7 @@ public class RandomValuePropertySource extends PropertySource<Random> {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Generating random property for '" + name + "'");
 		}
+		// 随机值
 		return getRandomValue(name.substring(PREFIX.length()));
 	}
 
@@ -87,6 +77,7 @@ public class RandomValuePropertySource extends PropertySource<Random> {
 		if (type.equals("long")) {
 			return getSource().nextLong();
 		}
+		// 随机范围
 		String range = getRange(type, "int");
 		if (range != null) {
 			return getNextIntInRange(range);
@@ -95,9 +86,11 @@ public class RandomValuePropertySource extends PropertySource<Random> {
 		if (range != null) {
 			return getNextLongInRange(range);
 		}
+		// 随机的字符串
 		if (type.equals("uuid")) {
 			return UUID.randomUUID().toString();
 		}
+		// 32位随机的字节数组
 		return getRandomBytes();
 	}
 
@@ -136,6 +129,9 @@ public class RandomValuePropertySource extends PropertySource<Random> {
 		return DigestUtils.md5DigestAsHex(bytes);
 	}
 
+	/**
+	 * 在应用运行时环境的属性源列表的尾部添加系统环境属性源和随机值的属性源。
+	 */
 	public static void addToEnvironment(ConfigurableEnvironment environment) {
 		environment.getPropertySources().addAfter(
 				StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME,
