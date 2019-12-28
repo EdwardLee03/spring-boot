@@ -22,6 +22,7 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 
 /**
  * An {@link AbstractFailureAnalyzer} for {@link ConnectorStartFailedException}.
+ * 分析由Tomcat连接器无法启动异常引起的故障。
  *
  * @author Andy Wilkinson
  */
