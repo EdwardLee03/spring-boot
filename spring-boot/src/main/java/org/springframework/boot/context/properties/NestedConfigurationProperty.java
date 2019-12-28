@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -28,8 +13,12 @@ import java.lang.annotation.Target;
  * processes, but it is used by the {@code spring-boot-configuration-processor} as a hint
  * that a field is not bound as a single value. When this is specified, a nested group is
  * created for the field and its type is harvested.
+ * 嵌套的配置属性，指示应将外部化配置的注解对象中的字段视为嵌套类型。
+ * 这个注解与实际的绑定过程没有关系，但是它被spring boot配置处理器用来暗示一个字段没有被绑定为单个值。
+ * 指定这个选项后，将为这个字段创建一个嵌套组，并获取其类型。
  * <p>
  * This has no effect on collections and maps as these types are automatically identified.
+ * 这对容器和映射表没有影响，因为这些类型是自动识别的。
  *
  * @author Stephane Nicoll
  * @author Phillip Webb

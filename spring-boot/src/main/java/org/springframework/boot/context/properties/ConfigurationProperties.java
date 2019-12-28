@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -29,9 +14,12 @@ import org.springframework.validation.annotation.Validated;
  * Annotation for externalized configuration. Add this to a class definition or a
  * {@code @Bean} method in a {@code @Configuration} class if you want to bind and validate
  * some external Properties (e.g. from a .properties file).
+ * 外部化配置属性集的注解。
+ * 如果要绑定和验证某些外部属性，请将其添加到类定义或@Configuration类中的@Bean方法。
  * <p>
  * Note that contrary to {@code @Value}, SpEL expressions are not evaluated since property
  * values are externalized.
+ * 请注意，与@Value相反，由于属性值是外部化的，因此不评估SpEL表达式。
  *
  * @author Dave Syer
  * @see ConfigurationPropertiesBindingPostProcessor
@@ -53,6 +41,7 @@ public @interface ConfigurationProperties {
 	/**
 	 * The name prefix of the properties that are valid to bind to this object. Synonym
 	 * for {@link #value()}.
+	 * 属性的名称前缀
 	 * @return the name prefix of the properties to bind
 	 */
 	@AliasFor("value")
@@ -62,6 +51,7 @@ public @interface ConfigurationProperties {
 	 * Flag to indicate that when binding to this object invalid fields should be ignored.
 	 * Invalid means invalid according to the binder that is used, and usually this means
 	 * fields of the wrong type (or that cannot be coerced into the correct type).
+	 * 是否忽略对象无效字段，默认值为不忽略。
 	 * @return the flag value (default false)
 	 */
 	boolean ignoreInvalidFields() default false;
@@ -69,6 +59,7 @@ public @interface ConfigurationProperties {
 	/**
 	 * Flag to indicate that when binding to this object fields with periods in their
 	 * names should be ignored.
+	 * 是否忽略嵌套的属性，默认值为不忽略。
 	 * @return the flag value (default false)
 	 */
 	boolean ignoreNestedProperties() default false;
@@ -76,6 +67,7 @@ public @interface ConfigurationProperties {
 	/**
 	 * Flag to indicate that when binding to this object unknown fields should be ignored.
 	 * An unknown field could be a sign of a mistake in the Properties.
+	 * 是否忽略未知的字段，默认值为忽略。
 	 * @return the flag value (default true)
 	 */
 	boolean ignoreUnknownFields() default true;

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -39,6 +24,10 @@ import org.springframework.util.StringUtils;
  * configuration. If one is declared then it a bean definition is registered with id equal
  * to the class name (thus an application context usually only contains one
  * {@link ConfigurationProperties} bean of each unique type).
+ * 导入选择器，设置外部属性与配置类的绑定关系。
+ * 它是否注册一个带外部化配置属性集注解的bean，具体取决于所封装的EnableConfigurationProperties是否显式声明一个。
+ * 如果未声明任何bean，那么对于任何标注为外部化配置的beans，bean后置处理器仍将启动。
+ * 如果声明了一个，则将其ID等于类名的bean定义进行注册。
  *
  * @author Dave Syer
  * @author Christian Dupuis
@@ -48,21 +37,25 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 
 	@Override
 	public String[] selectImports(AnnotationMetadata metadata) {
+		// bean的外部化配置属性集注解属性
 		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(
 				EnableConfigurationProperties.class.getName(), false);
 		Object[] type = (attributes != null) ? (Object[]) attributes.getFirst("value")
 				: null;
 		if (type == null || type.length == 0) {
+			// 外部化配置属性集绑定的后置处理器的注册者
 			return new String[] {
 					ConfigurationPropertiesBindingPostProcessorRegistrar.class
 							.getName() };
 		}
+		// 外部化配置属性集的bean注册者，外部化配置属性集绑定的后置处理器的注册者
 		return new String[] { ConfigurationPropertiesBeanRegistrar.class.getName(),
 				ConfigurationPropertiesBindingPostProcessorRegistrar.class.getName() };
 	}
 
 	/**
 	 * {@link ImportBeanDefinitionRegistrar} for configuration properties support.
+	 * 外部化配置属性集的bean注册者，导入bean定义的注册者。
 	 */
 	public static class ConfigurationPropertiesBeanRegistrar
 			implements ImportBeanDefinitionRegistrar {
@@ -70,24 +63,34 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata metadata,
 				BeanDefinitionRegistry registry) {
+			// bean的外部化配置属性集注解属性
 			MultiValueMap<String, Object> attributes = metadata
 					.getAllAnnotationAttributes(
 							EnableConfigurationProperties.class.getName(), false);
+			// 配置注册的类型列表
 			List<Class<?>> types = collectClasses(attributes.get("value"));
 			for (Class<?> type : types) {
+				// bean定义的名称前缀
 				String prefix = extractPrefix(type);
+				// bean定义的名称
 				String name = (StringUtils.hasText(prefix) ? prefix + "-" + type.getName()
 						: type.getName());
 				if (!registry.containsBeanDefinition(name)) {
+					// 注册bean定义
 					registerBeanDefinition(registry, type, name);
 				}
 			}
 		}
 
+		/**
+		 * 抽取bean定义的名称前缀。
+		 */
 		private String extractPrefix(Class<?> type) {
+			// bean的外部化配置属性集注解对象
 			ConfigurationProperties annotation = AnnotationUtils.findAnnotation(type,
 					ConfigurationProperties.class);
 			if (annotation != null) {
+				// 属性的名称前缀
 				return annotation.prefix();
 			}
 			return "";
@@ -105,13 +108,20 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 			return result;
 		}
 
+		/**
+		 * 注册bean定义。
+		 */
 		private void registerBeanDefinition(BeanDefinitionRegistry registry,
 				Class<?> type, String name) {
+			// bean定义构建者
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder
 					.genericBeanDefinition(type);
+			// bean定义对象
 			AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
+			// 注册bean定义
 			registry.registerBeanDefinition(name, beanDefinition);
 
+			// bean的外部化配置属性集注解对象
 			ConfigurationProperties properties = AnnotationUtils.findAnnotation(type,
 					ConfigurationProperties.class);
 			Assert.notNull(properties,

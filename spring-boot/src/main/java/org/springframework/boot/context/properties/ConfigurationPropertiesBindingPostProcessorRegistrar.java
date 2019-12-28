@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -24,6 +9,7 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * {@link ImportBeanDefinitionRegistrar} for binding externalized application properties
  * to {@link ConfigurationProperties} beans.
+ * 导入bean定义注册者，用于将外部的应用属性集绑定到带外部化配置属性集注解的beans。
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -33,21 +19,29 @@ public class ConfigurationPropertiesBindingPostProcessorRegistrar
 
 	/**
 	 * The bean name of the {@link ConfigurationPropertiesBindingPostProcessor}.
+	 * 绑定者bean的名称
 	 */
 	public static final String BINDER_BEAN_NAME = ConfigurationPropertiesBindingPostProcessor.class
 			.getName();
 
+	/**
+	 * 元数据bean的名称
+	 */
 	private static final String METADATA_BEAN_NAME = BINDER_BEAN_NAME + ".store";
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 			BeanDefinitionRegistry registry) {
+		// 保证单例
 		if (!registry.containsBeanDefinition(BINDER_BEAN_NAME)) {
+			// 配置对象bean工厂的元数据
 			BeanDefinitionBuilder meta = BeanDefinitionBuilder
 					.genericBeanDefinition(ConfigurationBeanFactoryMetaData.class);
+			// 配置属性集绑定的后置处理器
 			BeanDefinitionBuilder bean = BeanDefinitionBuilder.genericBeanDefinition(
 					ConfigurationPropertiesBindingPostProcessor.class);
 			bean.addPropertyReference("beanMetaDataStore", METADATA_BEAN_NAME);
+			// 注册配置属性集绑定的后置处理器的bean定义
 			registry.registerBeanDefinition(BINDER_BEAN_NAME, bean.getBeanDefinition());
 			registry.registerBeanDefinition(METADATA_BEAN_NAME, meta.getBeanDefinition());
 		}

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -68,6 +53,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 /**
  * {@link BeanPostProcessor} to bind {@link PropertySources} to beans annotated with
  * {@link ConfigurationProperties}.
+ * bean对象后置处理器，将属性源对象集绑定到带有外部化配置属性集注解的beans。
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -80,6 +66,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	/**
 	 * The bean name of the configuration properties validator.
+	 * 配置属性集验证器的bean名称
 	 */
 	public static final String VALIDATOR_BEAN_NAME = "configurationPropertiesValidator";
 
@@ -92,22 +79,43 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	private ConfigurationBeanFactoryMetaData beans = new ConfigurationBeanFactoryMetaData();
 
+	/**
+	 * 属性源对象集
+	 */
 	private PropertySources propertySources;
 
+	/**
+	 * 验证器
+	 */
 	private Validator validator;
 
 	private volatile Validator localValidator;
 
+	/**
+	 * 类型转换服务
+	 */
 	private ConversionService conversionService;
 
 	private DefaultConversionService defaultConversionService;
 
+	/**
+	 * bean工厂
+	 */
 	private BeanFactory beanFactory;
 
+	/**
+	 * 应用标准环境
+	 */
 	private Environment environment = new StandardEnvironment();
 
+	/**
+	 * 应用上下文
+	 */
 	private ApplicationContext applicationContext;
 
+	/**
+	 * 类型转换器列表
+	 */
 	private List<Converter<?, ?>> converters = Collections.emptyList();
 
 	private List<GenericConverter> genericConverters = Collections.emptyList();
@@ -202,7 +210,9 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		// 在属性集设置完成后执行
 		if (this.propertySources == null) {
+			// 推导数据源对象集
 			this.propertySources = deducePropertySources();
 		}
 		if (this.validator == null) {
@@ -217,6 +227,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+		// 释放本地的验证器
 		freeLocalValidator();
 	}
 
@@ -238,13 +249,19 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		}
 	}
 
+	/**
+	 * 推导数据源对象集。
+	 */
 	private PropertySources deducePropertySources() {
+		// 数据源对象集的占位符配置器
 		PropertySourcesPlaceholderConfigurer configurer = getSinglePropertySourcesPlaceholderConfigurer();
 		if (configurer != null) {
 			// Flatten the sources into a single list so they can be iterated
 			return new FlatPropertySources(configurer.getAppliedPropertySources());
 		}
 		if (this.environment instanceof ConfigurableEnvironment) {
+			// 可配置的应用运行时环境
+			// 可变的属性源对象集
 			MutablePropertySources propertySources = ((ConfigurableEnvironment) this.environment)
 					.getPropertySources();
 			return new FlatPropertySources(propertySources);
@@ -259,6 +276,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		// Take care not to cause early instantiation of all FactoryBeans
 		if (this.beanFactory instanceof ListableBeanFactory) {
 			ListableBeanFactory listableBeanFactory = (ListableBeanFactory) this.beanFactory;
+			// 所有属性源对象集的占位符配置器
 			Map<String, PropertySourcesPlaceholderConfigurer> beans = listableBeanFactory
 					.getBeansOfType(PropertySourcesPlaceholderConfigurer.class, false,
 							false);
@@ -286,6 +304,8 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName)
 			throws BeansException {
+		// 在bean初始化之前进行后置处理
+		// 外部化配置属性集的注解对象
 		ConfigurationProperties annotation = AnnotationUtils
 				.findAnnotation(bean.getClass(), ConfigurationProperties.class);
 		if (annotation != null) {
@@ -309,6 +329,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	private void postProcessBeforeInitialization(Object bean, String beanName,
 			ConfigurationProperties annotation) {
 		Object target = bean;
+		// 属性集配置工厂(设置属性源对象集，应用上下文，类型转换服务)
 		PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(
 				target);
 		factory.setPropertySources(this.propertySources);
@@ -324,10 +345,12 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 			factory.setExceptionIfInvalid(annotation.exceptionIfInvalid());
 			factory.setIgnoreNestedProperties(annotation.ignoreNestedProperties());
 			if (StringUtils.hasLength(annotation.prefix())) {
+				// 配置属性的名称前缀
 				factory.setTargetName(annotation.prefix());
 			}
 		}
 		try {
+			// 绑定属性集到目标bean
 			factory.bindPropertiesToTarget();
 		}
 		catch (Exception ex) {
@@ -341,13 +364,11 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		if (annotation == null) {
 			return "";
 		}
-		StringBuilder details = new StringBuilder();
-		details.append("prefix=").append(annotation.prefix());
-		details.append(", ignoreInvalidFields=").append(annotation.ignoreInvalidFields());
-		details.append(", ignoreUnknownFields=").append(annotation.ignoreUnknownFields());
-		details.append(", ignoreNestedProperties=")
-				.append(annotation.ignoreNestedProperties());
-		return details.toString();
+		return "prefix=" + annotation.prefix() +
+				", ignoreInvalidFields=" + annotation.ignoreInvalidFields() +
+				", ignoreUnknownFields=" + annotation.ignoreUnknownFields() +
+				", ignoreNestedProperties=" +
+				annotation.ignoreNestedProperties();
 	}
 
 	private Validator determineValidator(Object bean) {
@@ -476,6 +497,9 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	 */
 	private static class FlatPropertySources implements PropertySources {
 
+		/**
+		 * 属性源对象集
+		 */
 		private PropertySources propertySources;
 
 		FlatPropertySources(PropertySources propertySources) {

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.properties;
 
@@ -30,6 +15,9 @@ import org.springframework.context.annotation.Import;
  * {@link ConfigurationProperties} beans can be registered in the standard way (for
  * example using {@link Bean @Bean} methods) or, for convenience, can be specified
  * directly on this annotation.
+ * 启用对带有外部化配置属性集注解的beans的支持。
+ * 可以以标准方式注册带有外部化配置属性集注解的beans，
+ * 为方便起见，可以在这个注解上直接指定带有外部化配置属性集注解的beans。
  *
  * @author Dave Syer
  */
@@ -43,6 +31,8 @@ public @interface EnableConfigurationProperties {
 	 * Convenient way to quickly register {@link ConfigurationProperties} annotated beans
 	 * with Spring. Standard Spring Beans will also be scanned regardless of this value.
 	 * @return {@link ConfigurationProperties} annotated beans to register
+	 * 快速注册带外部化配置属性集注解的beans的便捷方法。
+	 * 无论该值如何，还将扫描标准的Spring Beans。
 	 */
 	Class<?>[] value() default {};
 
