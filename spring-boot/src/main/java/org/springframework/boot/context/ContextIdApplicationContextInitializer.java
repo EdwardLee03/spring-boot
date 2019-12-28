@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context;
 
@@ -27,21 +12,29 @@ import org.springframework.util.StringUtils;
  * {@link ApplicationContextInitializer} that set the Spring
  * {@link ApplicationContext#getId() ApplicationContext ID}. The following environment
  * properties will be consulted to create the ID:
+ * 设置Spring应用上下文ID的应用上下文初始化器。
+ * 参考以下环境属性来创建ID：
  * <ul>
  * <li>spring.application.name</li>
+ * Spring应用名称
  * <li>vcap.application.name</li>
  * <li>spring.config.name</li>
+ * Spring配置名称
  * </ul>
  * If no property is set the ID 'application' will be used.
+ * 如果未设置任何属性，则将使用'application'作为ID。
  *
  * <p>
  * In addition the following environment properties will be consulted to append a relevant
  * port or index:
+ * 此外，还将参考以下环境属性来附加相关的端口或索引：
  *
  * <ul>
  * <li>spring.application.index</li>
+ * Spring应用索引
  * <li>vcap.application.instance_index</li>
  * <li>PORT</li>
+ * Spring应用监听的端口
  * </ul>
  *
  * @author Dave Syer
@@ -52,10 +45,13 @@ public class ContextIdApplicationContextInitializer implements
 	/**
 	 * Placeholder pattern to resolve for application name. The following order is used to
 	 * find the name:
+	 * 用于解析应用程序名称的占位符模式。
 	 * <ul>
 	 * <li>{@code spring.application.name}</li>
+	 * Spring应用名称
 	 * <li>{@code vcap.application.name}</li>
 	 * <li>{@code spring.config.name}</li>
+	 * Spring配置名称
 	 * </ul>
 	 * This order allows the user defined name to take precedence over the platform
 	 * defined name. If no property is defined {@code 'application'} will be used.
@@ -65,6 +61,7 @@ public class ContextIdApplicationContextInitializer implements
 	/**
 	 * Placeholder pattern to resolve for application index. The following order is used
 	 * to find the name:
+	 * 用于解析应用程序索引的占位符模式。
 	 * <ul>
 	 * <li>{@code vcap.application.instance_index}</li>
 	 * <li>{@code spring.application.index}</li>
@@ -75,6 +72,9 @@ public class ContextIdApplicationContextInitializer implements
 	 */
 	private static final String INDEX_PATTERN = "${vcap.application.instance_index:${spring.application.index:${server.port:${PORT:null}}}}";
 
+	/**
+	 * 应用程序名称的占位符模式
+	 */
 	private final String name;
 
 	private int order = Ordered.LOWEST_PRECEDENCE - 10;
@@ -102,12 +102,21 @@ public class ContextIdApplicationContextInitializer implements
 
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {
+		// 设置应用上下文的ID
 		applicationContext.setId(getApplicationId(applicationContext.getEnvironment()));
 	}
 
+	/**
+	 * 返回应用程序的ID。
+	 * <p>
+	 * 格式：name[:profiles][:index]
+	 */
 	private String getApplicationId(ConfigurableEnvironment environment) {
+		// 应用程序的名称
 		String name = environment.resolvePlaceholders(this.name);
+		// 应用程序的索引
 		String index = environment.resolvePlaceholders(INDEX_PATTERN);
+		// 活动的配置文件集
 		String profiles = StringUtils
 				.arrayToCommaDelimitedString(environment.getActiveProfiles());
 		if (StringUtils.hasText(profiles)) {

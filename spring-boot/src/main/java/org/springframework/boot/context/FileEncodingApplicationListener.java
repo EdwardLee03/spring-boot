@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context;
 
@@ -31,6 +16,9 @@ import org.springframework.core.Ordered;
  * UPPERCASE variant of that) to the name of a character encoding (e.g. "UTF-8") then this
  * initializer throws an exception when the {@code file.encoding} System property does not
  * equal it.
+ * 如果系统文件编码与应用运行时环境中设置的期望值不匹配，则应用监视器会停止应用程序启动。
+ * 默认情况下没有任何作用，但是如果将spring.mandatory_file_encoding设置为字符编码的名称，
+ * 则当file.encoding系统属性不等于它时，这个初始化器将抛出异常。
  *
  * <p>
  * The System property {@code file.encoding} is normally set by the JVM in response to the
@@ -40,6 +28,8 @@ import org.springframework.core.Ordered;
  * encoding System property on the command line (with standard JVM features), but also
  * consider setting the {@code LANG} environment variable to an explicit
  * character-encoding value (e.g. "en_GB.UTF-8").
+ * 系统属性file.encoding通常由JVM设置，以响应LANG或LC_ALL环境变量，用于编码JVM参数以及文件名和路径。
+ * 在大多数情况下，可以在命令行上覆盖文件编码的系统属性，但也可以考虑将LANG环境变量设置为显式的字符编码值。
  *
  * @author Dave Syer
  */
@@ -56,22 +46,29 @@ public class FileEncodingApplicationListener
 
 	@Override
 	public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
+		// 松散的属性解析器
 		RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
 				event.getEnvironment(), "spring.");
 		if (resolver.containsProperty("mandatoryFileEncoding")) {
+			// file.encoding系统属性
 			String encoding = System.getProperty("file.encoding");
 			String desired = resolver.getProperty("mandatoryFileEncoding");
 			if (encoding != null && !desired.equalsIgnoreCase(encoding)) {
+				// 前提条件：配置了spring.mandatoryFileEncoding
+				// 系统文件编码与应用运行时环境中设置的期望值不匹配
 				logger.error("System property 'file.encoding' is currently '" + encoding
 						+ "'. It should be '" + desired
 						+ "' (as defined in 'spring.mandatoryFileEncoding').");
+				// LANG或LC_ALL环境变量
 				logger.error("Environment variable LANG is '" + System.getenv("LANG")
 						+ "'. You could use a locale setting that matches encoding='"
 						+ desired + "'.");
 				logger.error("Environment variable LC_ALL is '" + System.getenv("LC_ALL")
 						+ "'. You could use a locale setting that matches encoding='"
 						+ desired + "'.");
+				// 抛出非法状态运行时异常
 				throw new IllegalStateException(
+						// JVM尚未配置为使用所需的默认字符编码
 						"The Java Virtual Machine has not been configured to use the "
 								+ "desired default character encoding (" + desired
 								+ ").");
