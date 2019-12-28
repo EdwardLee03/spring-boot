@@ -1,33 +1,28 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.diagnostics;
 
 /**
  * The result of analyzing a failure.
+ * 故障的分析结果。
  *
  * @author Andy Wilkinson
  * @since 1.4.0
  */
 public class FailureAnalysis {
 
+	/**
+	 * 故障的描述
+	 */
 	private final String description;
 
+	/**
+	 * 用于解决故障的操作
+	 */
 	private final String action;
 
+	/**
+	 * 故障的原因
+	 */
 	private final Throwable cause;
 
 	/**
@@ -46,6 +41,7 @@ public class FailureAnalysis {
 
 	/**
 	 * Returns a description of the failure.
+	 * 返回故障的描述。
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -54,6 +50,7 @@ public class FailureAnalysis {
 
 	/**
 	 * Returns the action, if any, to be taken to address the failure.
+	 * 返回用于解决故障的操作，如果有。
 	 * @return the action or {@code null}
 	 */
 	public String getAction() {
@@ -62,6 +59,7 @@ public class FailureAnalysis {
 
 	/**
 	 * Returns the cause of the failure.
+	 * 返回故障的原因。
 	 * @return the cause
 	 */
 	public Throwable getCause() {

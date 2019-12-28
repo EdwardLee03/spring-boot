@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.diagnostics;
 
@@ -23,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link FailureAnalysisReporter} that logs the failure analysis.
+ * 通过日志记录故障分析结果的报告者。
  *
  * @author Andy Wilkinson
  * @since 1.4.0
@@ -35,10 +21,12 @@ public final class LoggingFailureAnalysisReporter implements FailureAnalysisRepo
 	@Override
 	public void report(FailureAnalysis failureAnalysis) {
 		if (logger.isDebugEnabled()) {
+			// 应用启动失败的异常
 			logger.debug("Application failed to start due to an exception",
 					failureAnalysis.getCause());
 		}
 		if (logger.isErrorEnabled()) {
+			// 记录故障分析结果的错误日志
 			logger.error(buildMessage(failureAnalysis));
 		}
 	}
@@ -47,11 +35,14 @@ public final class LoggingFailureAnalysisReporter implements FailureAnalysisRepo
 		StringBuilder builder = new StringBuilder();
 		builder.append(String.format("%n%n"));
 		builder.append(String.format("***************************%n"));
+		// 应用程序无法启动
 		builder.append(String.format("APPLICATION FAILED TO START%n"));
 		builder.append(String.format("***************************%n%n"));
+		// 故障的描述
 		builder.append(String.format("Description:%n%n"));
 		builder.append(String.format("%s%n", failureAnalysis.getDescription()));
 		if (StringUtils.hasText(failureAnalysis.getAction())) {
+			// 用于解决故障的操作
 			builder.append(String.format("%nAction:%n%n"));
 			builder.append(String.format("%s%n", failureAnalysis.getAction()));
 		}

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.diagnostics;
 
@@ -50,8 +35,14 @@ public final class FailureAnalyzers {
 
 	private static final Log logger = LogFactory.getLog(FailureAnalyzers.class);
 
+	/**
+	 * 类加载器
+	 */
 	private final ClassLoader classLoader;
 
+	/**
+	 * 故障分析器列表
+	 */
 	private final List<FailureAnalyzer> analyzers;
 
 	/**
@@ -66,11 +57,14 @@ public final class FailureAnalyzers {
 	FailureAnalyzers(ConfigurableApplicationContext context, ClassLoader classLoader) {
 		Assert.notNull(context, "Context must not be null");
 		this.classLoader = (classLoader != null) ? classLoader : context.getClassLoader();
+		// 加载故障分析器列表
 		this.analyzers = loadFailureAnalyzers(this.classLoader);
+		// 准备故障分析器列表
 		prepareFailureAnalyzers(this.analyzers, context);
 	}
 
 	private List<FailureAnalyzer> loadFailureAnalyzers(ClassLoader classLoader) {
+		// 使用工厂加载器加载故障分析器
 		List<String> analyzerNames = SpringFactoriesLoader
 				.loadFactoryNames(FailureAnalyzer.class, classLoader);
 		List<FailureAnalyzer> analyzers = new ArrayList<FailureAnalyzer>();
