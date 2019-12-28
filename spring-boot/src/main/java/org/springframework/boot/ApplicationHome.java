@@ -19,14 +19,22 @@ import org.springframework.util.StringUtils;
 /**
  * Provides access to the application home directory. Attempts to pick a sensible home for
  * both Jar Files, Exploded Archives and directly running applications.
+ * 提供对应用程序主目录的访问。
+ * 尝试为jar文件列表，分解的档案和直接运行的应用程序选择一个明智的主目录。
  *
  * @author Phillip Webb
  * @since 1.2.0
  */
 public class ApplicationHome {
 
+	/**
+	 * 资源文件
+	 */
 	private final File source;
 
+	/**
+	 * 资源目录
+	 */
 	private final File dir;
 
 	/**
@@ -38,7 +46,7 @@ public class ApplicationHome {
 
 	/**
 	 * Create a new {@link ApplicationHome} instance for the specified source class.
-	 * @param sourceClass the source class or {@code null}
+	 * @param sourceClass the source class or {@code null} 资源类
 	 */
 	public ApplicationHome(Class<?> sourceClass) {
 		this.source = findSource((sourceClass != null) ? sourceClass : getStartClass());
@@ -51,6 +59,7 @@ public class ApplicationHome {
 	private Class<?> getStartClass() {
 		try {
 			ClassLoader classLoader = getClass().getClassLoader();
+			// 获取启动类
 			return getStartClass(classLoader.getResources("META-INF/MANIFEST.MF"));
 		}
 		catch (Exception ex) {
@@ -58,12 +67,17 @@ public class ApplicationHome {
 		}
 	}
 
+	/**
+	 * 获取启动类。
+	 */
 	private Class<?> getStartClass(Enumeration<URL> manifestResources) {
 		while (manifestResources.hasMoreElements()) {
 			try {
 				InputStream inputStream = manifestResources.nextElement().openStream();
 				try {
+					// jar清单
 					Manifest manifest = new Manifest(inputStream);
+					// 启动类完全限定名称
 					String startClass = manifest.getMainAttributes()
 							.getValue("Start-Class");
 					if (startClass != null) {
@@ -130,6 +144,9 @@ public class ApplicationHome {
 		return new File(name);
 	}
 
+	/**
+	 * 查找应用程序的主目录。
+	 */
 	private File findHomeDir(File source) {
 		File homeDir = source;
 		homeDir = (homeDir != null) ? homeDir : findDefaultHomeDir();

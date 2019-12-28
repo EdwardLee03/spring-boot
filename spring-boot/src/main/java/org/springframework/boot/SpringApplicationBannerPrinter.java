@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2018 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot;
 
@@ -31,23 +16,42 @@ import org.springframework.util.StringUtils;
 
 /**
  * Class used by {@link SpringApplication} to print the application banner.
+ * Spring应用对象打印器，用于打印应用程序的横幅。
  *
  * @author Phillip Webb
  */
 class SpringApplicationBannerPrinter {
 
+	/**
+	 * 横幅文件的位置
+	 */
 	static final String BANNER_LOCATION_PROPERTY = "banner.location";
 
+	/**
+	 * 横幅图像的位置
+	 */
 	static final String BANNER_IMAGE_LOCATION_PROPERTY = "banner.image.location";
 
+	/**
+	 * 默认的横幅文件的位置
+	 */
 	static final String DEFAULT_BANNER_LOCATION = "banner.txt";
 
 	static final String[] IMAGE_EXTENSION = { "gif", "jpg", "png" };
 
+	/**
+	 * 默认的横幅对象
+	 */
 	private static final Banner DEFAULT_BANNER = new SpringBootBanner();
 
+	/**
+	 * 文件资源加载器
+	 */
 	private final ResourceLoader resourceLoader;
 
+	/**
+	 * 后备的横幅对象
+	 */
 	private final Banner fallbackBanner;
 
 	SpringApplicationBannerPrinter(ResourceLoader resourceLoader, Banner fallbackBanner) {
@@ -55,9 +59,13 @@ class SpringApplicationBannerPrinter {
 		this.fallbackBanner = fallbackBanner;
 	}
 
+	/**
+	 * 打印应用程序的横幅。
+	 */
 	public Banner print(Environment environment, Class<?> sourceClass, Log logger) {
 		Banner banner = getBanner(environment);
 		try {
+			// 记录日志信息
 			logger.info(createStringFromBanner(banner, environment, sourceClass));
 		}
 		catch (UnsupportedEncodingException ex) {
@@ -68,13 +76,16 @@ class SpringApplicationBannerPrinter {
 
 	public Banner print(Environment environment, Class<?> sourceClass, PrintStream out) {
 		Banner banner = getBanner(environment);
+		// 打印横幅
 		banner.printBanner(environment, sourceClass, out);
 		return new PrintedBanner(banner, sourceClass);
 	}
 
 	private Banner getBanner(Environment environment) {
 		Banners banners = new Banners();
+		// 图像文件形式的横幅
 		banners.addIfNotNull(getImageBanner(environment));
+		// 文本文件形式的横幅
 		banners.addIfNotNull(getTextBanner(environment));
 		if (banners.hasAtLeastOneBanner()) {
 			return banners;
@@ -114,6 +125,7 @@ class SpringApplicationBannerPrinter {
 			Class<?> mainApplicationClass) throws UnsupportedEncodingException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		banner.printBanner(environment, mainApplicationClass, new PrintStream(baos));
+		// 横幅字符编码
 		String charset = environment.getProperty("banner.charset", "UTF-8");
 		return baos.toString(charset);
 	}
@@ -123,6 +135,9 @@ class SpringApplicationBannerPrinter {
 	 */
 	private static class Banners implements Banner {
 
+		/**
+		 * 横幅对象列表
+		 */
 		private final List<Banner> banners = new ArrayList<Banner>();
 
 		public void addIfNotNull(Banner banner) {
@@ -139,6 +154,7 @@ class SpringApplicationBannerPrinter {
 		public void printBanner(Environment environment, Class<?> sourceClass,
 				PrintStream out) {
 			for (Banner banner : this.banners) {
+				// 打印横幅
 				banner.printBanner(environment, sourceClass, out);
 			}
 		}
@@ -151,8 +167,14 @@ class SpringApplicationBannerPrinter {
 	 */
 	private static class PrintedBanner implements Banner {
 
+		/**
+		 * 横幅对象
+		 */
 		private final Banner banner;
 
+		/**
+		 * 资源类
+		 */
 		private final Class<?> sourceClass;
 
 		PrintedBanner(Banner banner, Class<?> sourceClass) {

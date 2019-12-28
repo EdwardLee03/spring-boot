@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot;
 
@@ -24,6 +9,7 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * {@link ApplicationListener} to cleanup caches once the context is loaded.
+ * 一旦应用上下文加载完成，这个应用监听器会清理缓存。
  *
  * @author Phillip Webb
  */
@@ -32,15 +18,22 @@ class ClearCachesApplicationListener
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+		// 接收到"应用上下文刷新完成"事件
+		// 1.清理反射缓存(类型声明的方法和字段对象列表缓存)
 		ReflectionUtils.clearCache();
+		// 2.清理类加载器的缓存
 		clearClassLoaderCaches(Thread.currentThread().getContextClassLoader());
 	}
 
+	/**
+	 * 清理类加载器的缓存。
+	 */
 	private void clearClassLoaderCaches(ClassLoader classLoader) {
 		if (classLoader == null) {
 			return;
 		}
 		try {
+			// 调用类加载器声明的清理缓存的方法对象
 			Method clearCacheMethod = classLoader.getClass()
 					.getDeclaredMethod("clearCache");
 			clearCacheMethod.invoke(classLoader);
@@ -48,6 +41,7 @@ class ClearCachesApplicationListener
 		catch (Exception ex) {
 			// Ignore
 		}
+		// 递归地调用父亲类加载器
 		clearClassLoaderCaches(classLoader.getParent());
 	}
 
