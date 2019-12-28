@@ -1,20 +1,24 @@
-# PropertySource Loaders
+
+
+# Spring通用工厂加载机制(SpringFactoriesLoader)
+
+# PropertySource Loaders 属性源加载器
 org.springframework.boot.env.PropertySourceLoader=\
 org.springframework.boot.env.PropertiesPropertySourceLoader,\
 org.springframework.boot.env.YamlPropertySourceLoader
 
-# Run Listeners
+# Run Listeners Spring应用运行监视器
 org.springframework.boot.SpringApplicationRunListener=\
 org.springframework.boot.context.event.EventPublishingRunListener
 
-# Application Context Initializers
+# Application Context Initializers 应用上下文初始化器
 org.springframework.context.ApplicationContextInitializer=\
 org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer,\
 org.springframework.boot.context.ContextIdApplicationContextInitializer,\
 org.springframework.boot.context.config.DelegatingApplicationContextInitializer,\
 org.springframework.boot.context.embedded.ServerPortInfoApplicationContextInitializer
 
-# Application Listeners
+# Application Listeners 应用监视器
 org.springframework.context.ApplicationListener=\
 org.springframework.boot.ClearCachesApplicationListener,\
 org.springframework.boot.builder.ParentContextCloserApplicationListener,\
@@ -26,12 +30,12 @@ org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener,\
 org.springframework.boot.logging.ClasspathLoggingApplicationListener,\
 org.springframework.boot.logging.LoggingApplicationListener
 
-# Environment Post Processors
+# Environment Post Processors 应用运行时环境后置处理器
 org.springframework.boot.env.EnvironmentPostProcessor=\
 org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor,\
 org.springframework.boot.env.SpringApplicationJsonEnvironmentPostProcessor
 
-# Failure Analyzers
+# Failure Analyzers 故障分析器
 org.springframework.boot.diagnostics.FailureAnalyzer=\
 org.springframework.boot.diagnostics.analyzer.BeanCurrentlyInCreationFailureAnalyzer,\
 org.springframework.boot.diagnostics.analyzer.BeanNotOfRequiredTypeFailureAnalyzer,\
@@ -42,6 +46,7 @@ org.springframework.boot.diagnostics.analyzer.NoUniqueBeanDefinitionFailureAnaly
 org.springframework.boot.diagnostics.analyzer.PortInUseFailureAnalyzer,\
 org.springframework.boot.diagnostics.analyzer.ValidationExceptionFailureAnalyzer
 
-# FailureAnalysisReporters
+# FailureAnalysisReporters 故障分析结果的报告者
 org.springframework.boot.diagnostics.FailureAnalysisReporter=\
 org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter
+
