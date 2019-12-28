@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.event;
 
@@ -27,6 +12,10 @@ import org.springframework.core.env.Environment;
  * available, but after the {@link ApplicationListener}s have been registered. The source
  * of the event is the {@link SpringApplication} itself, but beware of using its internal
  * state too much at this early stage since it might be modified later in the lifecycle.
+ * 一旦启动Spring应用，便会尽快发布事件。
+ * 在应用运行时环境或应用上下文可用之前，但在应用监视器已注册之后。
+ * 事件的来源是Spring应用对象本身，但是要提防在其早期阶段过多使用其内部状态，
+ * 因为它可能会在生命周期的后期进行修改。
  *
  * @author Phillip Webb
  * @author Madhura Bhave

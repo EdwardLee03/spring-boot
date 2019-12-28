@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.event;
 
@@ -23,12 +8,16 @@ import org.springframework.core.env.Environment;
 /**
  * Event published when a {@link SpringApplication} is starting up and the
  * {@link Environment} is first available for inspection and modification.
+ * 在启动Spring应用且首次可用于检查和修改应用运行时环境时发布的事件。
  *
  * @author Dave Syer
  */
 @SuppressWarnings("serial")
 public class ApplicationEnvironmentPreparedEvent extends SpringApplicationEvent {
 
+	/**
+	 * 可配置的应用运行时环境
+	 */
 	private final ConfigurableEnvironment environment;
 
 	/**
@@ -45,6 +34,7 @@ public class ApplicationEnvironmentPreparedEvent extends SpringApplicationEvent 
 
 	/**
 	 * Return the environment.
+	 * 返回可配置的应用运行时环境。
 	 * @return the environment
 	 */
 	public ConfigurableEnvironment getEnvironment() {

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.boot.context.event;
 
@@ -33,19 +18,29 @@ import org.springframework.util.ErrorHandler;
 
 /**
  * {@link SpringApplicationRunListener} to publish {@link SpringApplicationEvent}s.
+ * 发布Spring应用事件的Spring应用运行监视器。
  * <p>
  * Uses an internal {@link ApplicationEventMulticaster} for the events that are fired
  * before the context is actually refreshed.
+ * 将内部的应用事件广播器用于在实际刷新应用上下文之前触发的事件。
  *
  * @author Phillip Webb
  * @author Stephane Nicoll
  */
 public class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
 
+	private static final Log logger = LogFactory.getLog(EventPublishingRunListener.class);
+
+	/**
+	 * Spring应用对象
+	 */
 	private final SpringApplication application;
 
 	private final String[] args;
 
+	/**
+	 * 应用事件广播器
+	 */
 	private final SimpleApplicationEventMulticaster initialMulticaster;
 
 	public EventPublishingRunListener(SpringApplication application, String[] args) {
@@ -71,13 +66,14 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 
 	@Override
 	public void environmentPrepared(ConfigurableEnvironment environment) {
+		// 应用运行时环境已准备就绪
 		this.initialMulticaster.multicastEvent(new ApplicationEnvironmentPreparedEvent(
 				this.application, this.args, environment));
 	}
 
 	@Override
 	public void contextPrepared(ConfigurableApplicationContext context) {
-
+		// 应用上下文已准备就绪
 	}
 
 	@Override
@@ -88,6 +84,7 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 			}
 			context.addApplicationListener(listener);
 		}
+		// 应用上下文已完全准备好但未刷新
 		this.initialMulticaster.multicastEvent(
 				new ApplicationPreparedEvent(this.application, this.args, context));
 	}
@@ -119,15 +116,15 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 	private SpringApplicationEvent getFinishedEvent(
 			ConfigurableApplicationContext context, Throwable exception) {
 		if (exception != null) {
+			// 应用启动失败
 			return new ApplicationFailedEvent(this.application, this.args, context,
 					exception);
 		}
+		// 应用启动就绪
 		return new ApplicationReadyEvent(this.application, this.args, context);
 	}
 
 	private static class LoggingErrorHandler implements ErrorHandler {
-
-		private static Log logger = LogFactory.getLog(EventPublishingRunListener.class);
 
 		@Override
 		public void handleError(Throwable throwable) {
