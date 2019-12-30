@@ -65,7 +65,7 @@ include::spring-boot-features.adoc[Spring Boot功能]
 include::production-ready-features.adoc[生产就绪功能]
 include::deployment.adoc[部署应用]
 include::spring-boot-cli.adoc[Spring Boot命令行]
-include::build-tool-plugins.adoc[生成工具插件]
+include::build-tool-plugins.adoc[构建工具插件]
 include::howto.adoc[使用指南]
 include::appendix.adoc[附录]
 

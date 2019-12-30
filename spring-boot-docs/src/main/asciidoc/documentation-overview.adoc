@@ -1,11 +1,15 @@
+
+
 [[boot-documentation]]
-= Spring Boot Documentation
+= Spring Boot Documentation 文档
 
 [partintro]
 --
 This section provides a brief overview of Spring Boot reference documentation. Think of
 it as map for the rest of the document. You can read this reference guide in a linear
 fashion, or you can skip sections if something doesn't interest you.
+本节简要概述了Spring Boot参考文档。
+考虑到它作为文档其余部分的映射，您可以线性地阅读本参考指南；如果您不感兴趣，也可以跳过部分。
 --
 
 
@@ -25,17 +29,17 @@ print or electronically.
 
 
 [[boot-documentation-getting-help]]
-== Getting help
+== Getting help 获得帮助
 Having trouble with Spring Boot, We'd like to help!
 
-* Try the <<howto.adoc#howto, How-to's>> -- they provide solutions to the most common
-  questions.
-* Learn the Spring basics -- Spring Boot builds on many other Spring projects, check
+* Try the <<howto.adoc#howto, How-to's>> 尝试使用 -- they provide solutions to the most common
+  questions. 提供最常见问题的解决方案
+* Learn the Spring basics 了解Spring基础知识 -- Spring Boot builds on many other Spring projects, check
   the http://spring.io[spring.io] web-site for a wealth of reference documentation. If
   you are just starting out with Spring, try one of the http://spring.io/guides[guides].
-* Ask a question - we monitor http://stackoverflow.com[stackoverflow.com] for questions
+* Ask a question 问一个问题 - we monitor http://stackoverflow.com[stackoverflow.com] for questions
   tagged with http://stackoverflow.com/tags/spring-boot[`spring-boot`].
-* Report bugs with Spring Boot at https://github.com/spring-projects/spring-boot/issues.
+* Report bugs with Spring Boot 使用Spring Boot报告错误 at https://github.com/spring-projects/spring-boot/issues.
 
 NOTE: All of Spring Boot is open source, including the documentation! If you find problems
 with the docs; or if you just want to improve them, please {github-code}[get involved].
@@ -43,110 +47,112 @@ with the docs; or if you just want to improve them, please {github-code}[get inv
 
 
 [[boot-documentation-first-steps]]
-== First steps
+== First steps 第一步
 If you're just getting started with Spring Boot, or 'Spring' in general,
 <<getting-started.adoc#getting-started, this is the place to start!>>
+如果你刚开始使用Spring Boot
 
-* *From scratch:*
+* *From scratch 从头开始:*
   <<getting-started.adoc#getting-started-introducing-spring-boot, Overview>> |
   <<getting-started.adoc#getting-started-system-requirements, Requirements>> |
   <<getting-started.adoc#getting-started-installing-spring-boot, Installation>>
-* *Tutorial:*
+* *Tutorial 教程:*
   <<getting-started.adoc#getting-started-first-application, Part 1>> |
   <<getting-started.adoc#getting-started-first-application-code, Part 2>>
-* *Running your example:*
+* *Running your example 运行例子:*
   <<getting-started.adoc#getting-started-first-application-run, Part 1>> |
   <<getting-started.adoc#getting-started-first-application-executable-jar, Part 2>>
 
 
 
-== Working with Spring Boot
+== Working with Spring Boot 使用Spring Boot
 Ready to actually start using Spring Boot? <<using-spring-boot.adoc#using-boot, We've
 got you covered>>.
+准备好实际开始使用Spring Boot了吗？我们已经覆盖了您。
 
 * *Build systems:*
   <<using-spring-boot.adoc#using-boot-maven, Maven>> |
   <<using-spring-boot.adoc#using-boot-gradle, Gradle>> |
   <<using-spring-boot.adoc#using-boot-ant, Ant>> |
-  <<using-spring-boot.adoc#using-boot-starter, Starters>>
-* *Best practices:*
-  <<using-spring-boot.adoc#using-boot-structuring-your-code, Code Structure>> |
-  <<using-spring-boot.adoc#using-boot-configuration-classes, @Configuration>> |
-  <<using-spring-boot.adoc#using-boot-auto-configuration, @EnableAutoConfiguration>> |
-  <<using-spring-boot.adoc#using-boot-spring-beans-and-dependency-injection, Beans and Dependency Injection>>
-* *Running your code*
+  <<using-spring-boot.adoc#using-boot-starter, Starters 启动器>>
+* *Best practices 最佳实践:*
+  <<using-spring-boot.adoc#using-boot-structuring-your-code, Code Structure 代码结构>> |
+  <<using-spring-boot.adoc#using-boot-configuration-classes, @Configuration 配置类>> |
+  <<using-spring-boot.adoc#using-boot-auto-configuration, @EnableAutoConfiguration 启用自动配置>> |
+  <<using-spring-boot.adoc#using-boot-spring-beans-and-dependency-injection, Beans and Dependency Injection Beans和依赖注入>>
+* *Running your code 运行代码:*
   <<using-spring-boot.adoc#using-boot-running-from-an-ide, IDE>> |
   <<using-spring-boot.adoc#using-boot-running-as-a-packaged-application, Packaged>> |
   <<using-spring-boot.adoc#using-boot-running-with-the-maven-plugin, Maven>> |
   <<using-spring-boot.adoc#using-boot-running-with-the-gradle-plugin, Gradle>>
-* *Packaging your app:*
-  <<using-spring-boot.adoc#using-boot-packaging-for-production, Production jars>>
+* *Packaging your app 打包应用:*
+  <<using-spring-boot.adoc#using-boot-packaging-for-production, Production jars 产品包>>
 * *Spring Boot CLI:*
 <<using-spring-boot-cli.adoc#cli, Using the CLI>>
 
 
 
-== Learning about Spring Boot features
+== Learning about Spring Boot features 了解Spring Boot功能
 Need more details about Spring Boot's core features?
 <<spring-boot-features.adoc#boot-features, This is for you>>!
+是否需要有关Spring Boot核心功能的更多信息？这个给你！
 
-* *Core Features:*
-  <<spring-boot-features.adoc#boot-features-spring-application, SpringApplication>> |
-  <<spring-boot-features.adoc#boot-features-external-config, External Configuration>> |
-  <<spring-boot-features.adoc#boot-features-profiles, Profiles>> |
-  <<spring-boot-features.adoc#boot-features-logging, Logging>>
-* *Web Applications:*
-  <<spring-boot-features.adoc#boot-features-spring-mvc, MVC>> |
-  <<spring-boot-features.adoc#boot-features-embedded-container, Embedded Containers>>
-* *Working with data:*
+* *Core Features 核心功能:*
+  <<spring-boot-features.adoc#boot-features-spring-application, SpringApplication Spring应用>> |
+  <<spring-boot-features.adoc#boot-features-external-config, External Configuration 外部化配置>> |
+  <<spring-boot-features.adoc#boot-features-profiles, Profiles 配置文件集>> |
+  <<spring-boot-features.adoc#boot-features-logging, Logging 日志记录>>
+* *Web Applications Web应用:*
+  <<spring-boot-features.adoc#boot-features-spring-mvc, MVC 模型-视图-控制器>> |
+  <<spring-boot-features.adoc#boot-features-embedded-container, Embedded Containers 嵌入式容器>>
+* *Working with data 处理数据:*
   <<spring-boot-features.adoc#boot-features-sql, SQL>> |
   <<spring-boot-features.adoc#boot-features-nosql, NO-SQL>>
-* *Messaging:*
+* *Messaging 消息传递:*
   <<spring-boot-features.adoc#boot-features-messaging, Overview>> |
   <<spring-boot-features.adoc#boot-features-jms, JMS>>
-* *Testing:*
-  <<spring-boot-features.adoc#boot-features-testing, Overview>> |
-  <<spring-boot-features.adoc#boot-features-testing-spring-boot-applications, Boot Applications>> |
-  <<spring-boot-features.adoc#boot-features-test-utilities, Utils>>
-* *Extending:*
-  <<spring-boot-features.adoc#boot-features-developing-auto-configuration, Auto-configuration>> |
-  <<spring-boot-features.adoc#boot-features-condition-annotations, @Conditions>>
+* *Testing 测试:*
+  <<spring-boot-features.adoc#boot-features-testing, Overview 测试概述>> |
+  <<spring-boot-features.adoc#boot-features-testing-spring-boot-applications, Boot Applications 测试Boot应用>> |
+  <<spring-boot-features.adoc#boot-features-test-utilities, Utils 测试工具类>>
+* *Extending 扩展:*
+  <<spring-boot-features.adoc#boot-features-developing-auto-configuration, Auto-configuration 开发自动配置>> |
+  <<spring-boot-features.adoc#boot-features-condition-annotations, @Conditions 条件注解>>
 
 
 
-== Moving to production
+== Moving to production 进入生产
 When you're ready to push your Spring Boot application to production, we've got
 <<production-ready-features.adoc#production-ready, some tricks that you might like>>!
+当您准备将Spring Boot应用程序投入生产时，我们将提供一些您可能想要的技巧！
 
-* *Management endpoints:*
-<<production-ready-features.adoc#production-ready-endpoints, Overview>> |
-<<production-ready-features.adoc#production-ready-customizing-endpoints, Customization>>
-* *Connection options:*
-<<production-ready-features.adoc#production-ready-monitoring, HTTP>> |
+* *Management endpoints 管理端点:*
+<<production-ready-features.adoc#production-ready-endpoints, Overview 端点概述>> |
+<<production-ready-features.adoc#production-ready-customizing-endpoints, Customization 定制端点>>
+* *Connection options 连接选项:*
+<<production-ready-features.adoc#production-ready-monitoring, HTTP 监控>> |
 <<production-ready-features.adoc#production-ready-jmx, JMX>> |
 <<production-ready-features.adoc#production-ready-remote-shell, SSH>>
-* *Monitoring:*
-<<production-ready-features.adoc#production-ready-metrics, Metrics>> |
-<<production-ready-features.adoc#production-ready-auditing, Auditing>> |
-<<production-ready-features.adoc#production-ready-tracing, Tracing>> |
-<<production-ready-features.adoc#production-ready-process-monitoring, Process>>
+* *Monitoring 监控:*
+<<production-ready-features.adoc#production-ready-metrics, Metrics 度量指标>> |
+<<production-ready-features.adoc#production-ready-auditing, Auditing 审计>> |
+<<production-ready-features.adoc#production-ready-tracing, Tracing 追踪>> |
+<<production-ready-features.adoc#production-ready-process-monitoring, Process 处理监控(告警)>>
 
 
 
-== Advanced topics
+== Advanced topics 高级主题
 Lastly, we have a few topics for the more advanced user.
+最后，我们为高级用户提供了一些主题。
 
-* *Deploy Spring Boot Applications:*
-<<deployment.adoc#cloud-deployment, Cloud Deployment>> |
-<<deployment.adoc#deployment-service, OS Service>>
-* *Build tool plugins:*
+* *Deploy Spring Boot Applications 部署Spring Boot应用程序:*
+<<deployment.adoc#cloud-deployment, Cloud Deployment 云部署>> |
+<<deployment.adoc#deployment-service, OS Service 部署服务>>
+* *Build tool plugins 构建工具插件:*
 <<build-tool-plugins.adoc#build-tool-plugins-maven-plugin, Maven>> |
 <<build-tool-plugins.adoc#build-tool-plugins-gradle-plugin, Gradle>>
-* *Appendix:*
-<<appendix-application-properties.adoc#common-application-properties, Application Properties>> |
-<<appendix-auto-configuration-classes.adoc#auto-configuration-classes, Auto-configuration classes>> |
-<<appendix-executable-jar-format.adoc#executable-jar, Executable Jars>>
-
-
-
+* *Appendix 附录:*
+<<appendix-application-properties.adoc#common-application-properties, Application Properties  常见的应用属性集>> |
+<<appendix-auto-configuration-classes.adoc#auto-configuration-classes, Auto-configuration classes 自动配置类列表>> |
+<<appendix-executable-jar-format.adoc#executable-jar, Executable Jars 可执行的应用包>>
 
