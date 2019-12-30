@@ -1,4 +1,6 @@
-= Spring Boot Reference Guide
+
+
+= Spring Boot Reference Guide 参考指南
 Phillip Webb; Dave Syer; Josh Long; Stéphane Nicoll; Rob Winch; Andy Wilkinson; Marcel Overdijk; Christian Dupuis; Sébastien Deleuze; Michael Simons
 :doctype: book
 :toc:
@@ -56,15 +58,16 @@ Phillip Webb; Dave Syer; Josh Long; Stéphane Nicoll; Rob Winch; Andy Wilkinson;
 :jooq-manual: https://www.jooq.org/doc/{jooq-version}/manual-single-page
 // ======================================================================================
 
-include::documentation-overview.adoc[]
-include::getting-started.adoc[]
-include::using-spring-boot.adoc[]
-include::spring-boot-features.adoc[]
-include::production-ready-features.adoc[]
-include::deployment.adoc[]
-include::spring-boot-cli.adoc[]
-include::build-tool-plugins.adoc[]
-include::howto.adoc[]
-include::appendix.adoc[]
+include::documentation-overview.adoc[文档概述]
+include::getting-started.adoc[入门]
+include::using-spring-boot.adoc[使用Spring Boot]
+include::spring-boot-features.adoc[Spring Boot功能]
+include::production-ready-features.adoc[生产就绪功能]
+include::deployment.adoc[部署应用]
+include::spring-boot-cli.adoc[Spring Boot命令行]
+include::build-tool-plugins.adoc[生成工具插件]
+include::howto.adoc[使用指南]
+include::appendix.adoc[附录]
 
 // ======================================================================================
+
