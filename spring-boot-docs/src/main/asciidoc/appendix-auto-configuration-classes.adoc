@@ -1,24 +1,31 @@
+
+
 [appendix]
 [[auto-configuration-classes]]
-== Auto-configuration classes
+== Auto-configuration classes 自动配置类列表
 Here is a list of all auto-configuration classes provided by Spring Boot with links to
 documentation and source code. Remember to also look at the autoconfig report in your
 application for more details of which features are switched on.
 (start the app with `--debug` or `-Ddebug`, or in an Actuator application use the
 `autoconfig` endpoint).
+这是Spring Boot提供的所有自动配置类的列表，链接指向文档和源代码。
+请记住，还要查看应用程序中的自动配置报告，以了解有关哪些功能已打开的更多详细信息。
 
 
 
 [[auto-configuration-classes-from-autoconfigure-module]]
-=== From the "`spring-boot-autoconfigure`" module
+=== From the "`spring-boot-autoconfigure`" module 来自spring-boot-autoconfigure模块
 The following auto-configuration classes are from the `spring-boot-autoconfigure` module:
+以下自动配置类来自spring-boot-autoconfigure模块：
 
 include::../../../target/generated-resources/auto-configuration-classes-spring-boot-autoconfigure.adoc[]
 
 
 
 [[auto-configuration-classes-from-actuator]]
-=== From the "`spring-boot-actuator`" module
+=== From the "`spring-boot-actuator`" module 来自spring-boot-actuator模块
 The following auto-configuration classes are from the `spring-boot-actuator` module:
+以下自动配置类来自spring-boot-actuator模块：
 
 include::../../../target/generated-resources/auto-configuration-classes-spring-boot-actuator.adoc[]
+
