@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>spring-boot-sample-cache</artifactId>
 	<name>Spring Boot Cache Sample</name>
-	<description>Spring Boot Cache Sample</description>
+	<description>Spring Boot Cache Sample 缓存示例</description>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<organization>
 		<name>Pivotal Software, Inc.</name>
@@ -20,6 +20,7 @@
 	</properties>
 	<dependencies>
 		<!-- Compile -->
+		<!-- Cache Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>

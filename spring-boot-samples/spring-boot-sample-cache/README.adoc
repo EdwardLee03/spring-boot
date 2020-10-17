@@ -1,3 +1,4 @@
+
 = Spring Boot Cache Sample
 
 This sample demonstrates the caching auto-configuration support. Spring's caching

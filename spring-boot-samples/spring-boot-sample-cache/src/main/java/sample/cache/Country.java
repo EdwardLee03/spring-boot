@@ -41,7 +41,6 @@ public class Country implements Serializable {
 		}
 
 		Country country = (Country) o;
-
 		return this.code.equals(country.code);
 	}
 

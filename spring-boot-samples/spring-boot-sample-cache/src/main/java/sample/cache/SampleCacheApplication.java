@@ -21,12 +21,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * 开启缓存管理和任务定时调度功能。
+ */
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication
 public class SampleCacheApplication {
 
 	public static void main(String[] args) {
+		// SpringApplication自定义
 		new SpringApplicationBuilder().sources(SampleCacheApplication.class)
 				.profiles("app").run(args);
 	}

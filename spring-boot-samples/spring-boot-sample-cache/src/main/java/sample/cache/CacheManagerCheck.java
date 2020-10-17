@@ -23,11 +23,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
+/**
+ * 缓存管理器检查者，基于命令行运行器实现。
+ *
+ * @see org.springframework.boot.CommandLineRunner
+ */
 @Component
 public class CacheManagerCheck implements CommandLineRunner {
 
+	/**
+	 * 日志记录器的小写变量名
+	 */
 	private static final Logger logger = LoggerFactory.getLogger(CacheManagerCheck.class);
 
+	/**
+	 * 缓存管理器
+	 */
 	private final CacheManager cacheManager;
 
 	public CacheManagerCheck(CacheManager cacheManager) {
@@ -35,7 +46,8 @@ public class CacheManagerCheck implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... strings) throws Exception {
+	public void run(String... strings) {
+		// 回调输出配置信息或检查项
 		logger.info("\n\n" + "=========================================================\n"
 				+ "Using cache manager: " + this.cacheManager.getClass().getName() + "\n"
 				+ "=========================================================\n\n");

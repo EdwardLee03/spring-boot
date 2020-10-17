@@ -58,6 +58,9 @@ class SampleClient {
 		this.random = new Random();
 	}
 
+	/**
+	 * 定时地执行检索国家信息的任务。
+	 */
 	@Scheduled(fixedDelay = 500)
 	public void retrieveCountry() {
 		String randomCode = SAMPLE_COUNTRY_CODES

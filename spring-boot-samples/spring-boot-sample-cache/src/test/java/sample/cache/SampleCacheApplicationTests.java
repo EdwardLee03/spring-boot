@@ -31,6 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class SampleCacheApplicationTests {
 
+	/**
+	 * 缓存管理器
+	 */
 	@Autowired
 	private CacheManager cacheManager;
 
@@ -39,6 +42,7 @@ public class SampleCacheApplicationTests {
 
 	@Test
 	public void validateCache() {
+		// 校验缓存配置及缓存值
 		Cache countries = this.cacheManager.getCache("countries");
 		assertThat(countries).isNotNull();
 		countries.clear(); // Simple test assuming the cache is empty

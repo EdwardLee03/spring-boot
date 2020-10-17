@@ -20,10 +20,17 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+/**
+ * 国家信息的持久化存储服务。
+ * 缓存配置
+ */
 @Component
 @CacheConfig(cacheNames = "countries")
 public class CountryRepository {
 
+	/**
+	 * 可缓存结果的方法。
+	 */
 	@Cacheable
 	public Country findByCode(String code) {
 		System.out.println("---> Loading country with code '" + code + "'");
