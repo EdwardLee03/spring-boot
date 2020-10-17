@@ -39,30 +39,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests for {@link SampleActuatorLog4J2Application}.
  *
  * @author Dave Syer
- * @@author Stephane Nicoll
+ * @author Stephane Nicoll
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SampleActuatorLog4J2ApplicationTests {
 
+	/**
+	 * 日志记录器的小写变量名
+	 */
 	private static final Logger logger = LogManager
 			.getLogger(SampleActuatorLog4J2ApplicationTests.class);
 
+	/**
+	 * 日志输出捕获
+	 */
 	@Rule
 	public OutputCapture output = new OutputCapture();
 
+	/**
+	 * 模拟的MVC
+	 */
 	@Autowired
 	private MockMvc mvc;
 
 	@Test
 	public void testLogger() {
+		// 验证日志信息
 		logger.info("Hello World");
 		this.output.expect(containsString("Hello World"));
 	}
 
 	@Test
 	public void validateLoggersEndpoint() throws Exception {
+		// 校验日志记录器的端点配置
 		this.mvc.perform(get("/loggers/org.apache.coyote.http11.Http11NioProtocol"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(equalTo("{\"configuredLevel\":\"WARN\","

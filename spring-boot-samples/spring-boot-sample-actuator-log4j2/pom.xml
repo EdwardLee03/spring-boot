@@ -30,6 +30,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- Log4j 2 Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
