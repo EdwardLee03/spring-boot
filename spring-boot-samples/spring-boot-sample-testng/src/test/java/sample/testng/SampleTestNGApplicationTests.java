@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Basic integration tests for demo application.
+ * 基础的集成测试。
  *
  * @author Phillip Webb
  */
@@ -42,7 +43,7 @@ public class SampleTestNGApplicationTests extends AbstractTestNGSpringContextTes
 	private TestRestTemplate restTemplate;
 
 	@Test
-	public void testHome() throws Exception {
+	public void testHome() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity("/", String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).isEqualTo("Hello World");

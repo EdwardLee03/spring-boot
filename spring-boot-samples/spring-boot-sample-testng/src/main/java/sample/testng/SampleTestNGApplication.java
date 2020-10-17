@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SampleTestNGApplication {
 
-	private static Log logger = LogFactory.getLog(SampleTestNGApplication.class);
+	private static final Log logger = LogFactory.getLog(SampleTestNGApplication.class);
 
 	@Bean
 	protected ServletContextListener listener() {
@@ -48,7 +48,7 @@ public class SampleTestNGApplication {
 		};
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		SpringApplication.run(SampleTestNGApplication.class, args);
 	}
 
