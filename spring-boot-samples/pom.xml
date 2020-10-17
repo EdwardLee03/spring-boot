@@ -10,7 +10,7 @@
 	<artifactId>spring-boot-samples</artifactId>
 	<packaging>pom</packaging>
 	<name>Spring Boot Samples</name>
-	<description>Spring Boot Samples</description>
+	<description>Spring Boot Samples 使用示例</description>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<organization>
 		<name>Pivotal Software, Inc.</name>

@@ -5,7 +5,7 @@
 	<version>1.5.19.RELEASE</version>
 	<packaging>pom</packaging>
 	<name>Spring Boot Dependencies</name>
-	<description>Spring Boot Dependencies</description>
+	<description>Spring Boot Dependencies 依赖管理</description>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<organization>
 		<name>Pivotal Software, Inc.</name>
@@ -44,7 +44,7 @@
 	</developers>
 	<!-- 属性配置项 -->
 	<properties>
-		<!-- Dependency versions 第三方库依赖版本 -->
+		<!-- Dependency versions 第三方库依赖版本，期望解决版本一致性的问题 -->
 		<activemq.version>5.14.5</activemq.version>
 		<antlr2.version>2.7.7</antlr2.version>
 		<appengine-sdk.version>1.9.71</appengine-sdk.version>
