@@ -48,6 +48,7 @@ class SimpleCacheConfiguration {
 
 	@Bean
 	public ConcurrentMapCacheManager cacheManager() {
+		// 并发映射表的缓存管理器
 		ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
 		List<String> cacheNames = this.cacheProperties.getCacheNames();
 		if (!cacheNames.isEmpty()) {

@@ -18,6 +18,7 @@ package org.springframework.boot.autoconfigure.cache;
 
 /**
  * Supported cache types (defined in order of precedence).
+ * 支持的缓存类型列表。
  *
  * @author Stephane Nicoll
  * @author Phillip Webb
@@ -28,11 +29,13 @@ public enum CacheType {
 
 	/**
 	 * Generic caching using 'Cache' beans from the context.
+	 * 通用缓存
 	 */
 	GENERIC,
 
 	/**
 	 * JCache (JSR-107) backed caching.
+	 * Java Cache
 	 */
 	JCACHE,
 
@@ -58,6 +61,7 @@ public enum CacheType {
 
 	/**
 	 * Redis backed caching.
+	 * Redis分布式缓存
 	 */
 	REDIS,
 
@@ -74,12 +78,13 @@ public enum CacheType {
 
 	/**
 	 * Simple in-memory caching.
+	 * 简单的内存缓存
 	 */
 	SIMPLE,
 
 	/**
 	 * No caching.
 	 */
-	NONE;
+	NONE
 
 }

@@ -40,6 +40,9 @@ import org.springframework.context.annotation.Configuration;
 @Conditional(CacheCondition.class)
 class GenericCacheConfiguration {
 
+	/**
+	 * 缓存管理器的定制者列表
+	 */
 	private final CacheManagerCustomizers customizers;
 
 	GenericCacheConfiguration(CacheManagerCustomizers customizers) {
@@ -48,6 +51,7 @@ class GenericCacheConfiguration {
 
 	@Bean
 	public SimpleCacheManager cacheManager(Collection<Cache> caches) {
+		// 缓存管理器
 		SimpleCacheManager cacheManager = new SimpleCacheManager();
 		cacheManager.setCaches(caches);
 		return this.customizers.customize(cacheManager);

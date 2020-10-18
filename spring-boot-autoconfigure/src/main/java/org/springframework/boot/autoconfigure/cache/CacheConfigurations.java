@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 
 /**
  * Mappings between {@link CacheType} and {@code @Configuration}.
+ * 缓存类型和其配置类的映射关系。
  *
  * @author Phillip Webb
  * @author Eddú Meléndez
@@ -45,6 +46,7 @@ final class CacheConfigurations {
 		addGuavaMapping(mappings);
 		mappings.put(CacheType.SIMPLE, SimpleCacheConfiguration.class);
 		mappings.put(CacheType.NONE, NoOpCacheConfiguration.class);
+		// 包装为不可变的映射表
 		MAPPINGS = Collections.unmodifiableMap(mappings);
 	}
 
@@ -56,6 +58,9 @@ final class CacheConfigurations {
 	private CacheConfigurations() {
 	}
 
+	/**
+	 * 获取配置类的类名。
+	 */
 	public static String getConfigurationClass(CacheType cacheType) {
 		Class<?> configurationClass = MAPPINGS.get(cacheType);
 		Assert.state(configurationClass != null, "Unknown cache type " + cacheType);

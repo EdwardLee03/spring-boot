@@ -31,6 +31,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Redis cache configuration.
+ * Redis分布式缓存配置。
  *
  * @author Stephane Nicoll
  * @since 1.3.0
@@ -42,8 +43,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Conditional(CacheCondition.class)
 class RedisCacheConfiguration {
 
+	/**
+	 * 缓存抽象的配置属性项
+	 */
 	private final CacheProperties cacheProperties;
 
+	/**
+	 * 缓存管理器的定制者列表
+	 */
 	private final CacheManagerCustomizers customizerInvoker;
 
 	RedisCacheConfiguration(CacheProperties cacheProperties,
@@ -54,12 +61,14 @@ class RedisCacheConfiguration {
 
 	@Bean
 	public RedisCacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate) {
+		// Redis缓存管理器
 		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
 		cacheManager.setUsePrefix(true);
 		List<String> cacheNames = this.cacheProperties.getCacheNames();
 		if (!cacheNames.isEmpty()) {
 			cacheManager.setCacheNames(cacheNames);
 		}
+		// 定制缓存管理器
 		return this.customizerInvoker.customize(cacheManager);
 	}
 

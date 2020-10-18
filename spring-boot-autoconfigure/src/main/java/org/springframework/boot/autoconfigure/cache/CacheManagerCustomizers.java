@@ -35,8 +35,14 @@ import org.springframework.core.ResolvableType;
  */
 public class CacheManagerCustomizers {
 
+	/**
+	 * 日志记录器的小写命名
+	 */
 	private static final Log logger = LogFactory.getLog(CacheManagerCustomizers.class);
 
+	/**
+	 * 缓存管理器的定制者列表
+	 */
 	private final List<CacheManagerCustomizer<?>> customizers;
 
 	public CacheManagerCustomizers(
@@ -50,16 +56,19 @@ public class CacheManagerCustomizers {
 	 * Customize the specified {@link CacheManager}. Locates all
 	 * {@link CacheManagerCustomizer} beans able to handle the specified instance and
 	 * invoke {@link CacheManagerCustomizer#customize(CacheManager)} on them.
+	 * 链式包装调用。
 	 * @param <T> the type of cache manager
 	 * @param cacheManager the cache manager to customize
 	 * @return the cache manager
 	 */
 	public <T extends CacheManager> T customize(T cacheManager) {
 		for (CacheManagerCustomizer<?> customizer : this.customizers) {
+			// 解析缓存管理器定制者的类型
 			Class<?> generic = ResolvableType
 					.forClass(CacheManagerCustomizer.class, customizer.getClass())
 					.resolveGeneric();
 			if (generic.isInstance(cacheManager)) {
+				// 缓存管理器的实例对象
 				customize(cacheManager, customizer);
 			}
 		}
@@ -74,6 +83,7 @@ public class CacheManagerCustomizers {
 		catch (ClassCastException ex) {
 			// Possibly a lambda-defined customizer which we could not resolve the generic
 			// cache manager type for
+			// lambda表达式定义的缓存管理器定制者，有坑
 			if (logger.isDebugEnabled()) {
 				logger.debug(
 						"Non-matching cache manager type for customizer: " + customizer,

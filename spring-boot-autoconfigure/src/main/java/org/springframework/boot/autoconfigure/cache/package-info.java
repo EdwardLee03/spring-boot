@@ -16,5 +16,6 @@
 
 /**
  * Auto-configuration for the cache abstraction.
+ * 缓存抽象的自动配置。
  */
 package org.springframework.boot.autoconfigure.cache;

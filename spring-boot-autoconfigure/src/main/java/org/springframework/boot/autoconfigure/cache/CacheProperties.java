@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
 
 /**
  * Configuration properties for the cache abstraction.
+ * 缓存抽象的配置属性项。
  *
  * @author Stephane Nicoll
  * @author Eddú Meléndez
@@ -37,14 +38,18 @@ public class CacheProperties {
 
 	/**
 	 * Cache type, auto-detected according to the environment by default.
+	 * 缓存类型，自动检测
 	 */
 	private CacheType type;
 
 	/**
 	 * Comma-separated list of cache names to create if supported by the underlying cache
 	 * manager. Usually, this disables the ability to create additional caches on-the-fly.
+	 * 逗号分隔的缓存名称列表
 	 */
 	private List<String> cacheNames = new ArrayList<String>();
+
+	// 缓存实例对象
 
 	private final Caffeine caffeine = new Caffeine();
 
@@ -101,12 +106,14 @@ public class CacheProperties {
 		return this.jcache;
 	}
 
+	@Deprecated
 	public Guava getGuava() {
 		return this.guava;
 	}
 
 	/**
 	 * Resolve the config location if set.
+	 * 解析配置文件的位置。
 	 * @param config the config resource
 	 * @return the location or {@code null} if it is not set
 	 * @throws IllegalArgumentException if the config attribute is set to an unknown
@@ -123,12 +130,14 @@ public class CacheProperties {
 
 	/**
 	 * Caffeine specific cache properties.
+	 * Caffeine本地内存缓存的配置属性项。
 	 */
 	public static class Caffeine {
 
 		/**
 		 * The spec to use to create caches. Check CaffeineSpec for more details on the
 		 * spec format.
+		 * Caffeine缓存构建者的配置规范
 		 */
 		private String spec;
 
@@ -249,6 +258,7 @@ public class CacheProperties {
 		 * Fully qualified name of the CachingProvider implementation to use to retrieve
 		 * the JSR-107 compliant cache manager. Only needed if more than one JSR-107
 		 * implementation is available on the classpath.
+		 * 缓存提供者实现类的完全限定名
 		 */
 		private String provider;
 
@@ -273,6 +283,7 @@ public class CacheProperties {
 	/**
 	 * Guava specific cache properties.
 	 */
+	@Deprecated
 	public static class Guava {
 
 		/**

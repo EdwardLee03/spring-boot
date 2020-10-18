@@ -48,6 +48,7 @@ import org.springframework.util.Assert;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for the cache abstraction. Creates a
  * {@link CacheManager} if necessary when caching is enabled via {@link EnableCaching}.
+ * 缓存抽象的自动配置项。
  * <p>
  * Cache store can be auto-detected or specified explicitly via configuration.
  *
@@ -70,12 +71,14 @@ public class CacheAutoConfiguration {
 	@ConditionalOnMissingBean
 	public CacheManagerCustomizers cacheManagerCustomizers(
 			ObjectProvider<List<CacheManagerCustomizer<?>>> customizers) {
+		// 缓存管理器的定制者列表
 		return new CacheManagerCustomizers(customizers.getIfAvailable());
 	}
 
 	@Bean
 	public CacheManagerValidator cacheAutoConfigurationValidator(
 			CacheProperties cacheProperties, ObjectProvider<CacheManager> cacheManager) {
+		// 缓存管理器校验者
 		return new CacheManagerValidator(cacheProperties, cacheManager);
 	}
 
@@ -109,6 +112,7 @@ public class CacheAutoConfiguration {
 
 		@Override
 		public void afterPropertiesSet() {
+			// 校验缓存管理器实例对象存在
 			Assert.notNull(this.cacheManager.getIfAvailable(),
 					"No cache manager could "
 							+ "be auto-configured, check your configuration (caching "
@@ -119,6 +123,7 @@ public class CacheAutoConfiguration {
 
 	/**
 	 * {@link ImportSelector} to add {@link CacheType} configuration classes.
+	 * 添加缓存类型配置类的导入选择器。
 	 */
 	static class CacheConfigurationImportSelector implements ImportSelector {
 
@@ -127,6 +132,7 @@ public class CacheAutoConfiguration {
 			CacheType[] types = CacheType.values();
 			String[] imports = new String[types.length];
 			for (int i = 0; i < types.length; i++) {
+				// 缓存类型的缓存配置类
 				imports[i] = CacheConfigurations.getConfigurationClass(types[i]);
 			}
 			return imports;

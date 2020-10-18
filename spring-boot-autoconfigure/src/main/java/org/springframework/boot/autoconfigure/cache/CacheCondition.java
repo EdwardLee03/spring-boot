@@ -29,6 +29,7 @@ import org.springframework.core.type.ClassMetadata;
 
 /**
  * General cache condition used with all cache configuration classes.
+ * 所有缓存配置类的缓存条件。
  *
  * @author Stephane Nicoll
  * @author Phillip Webb
@@ -45,11 +46,13 @@ class CacheCondition extends SpringBootCondition {
 		}
 		ConditionMessage.Builder message = ConditionMessage.forCondition("Cache",
 				sourceClass);
+		// 缓存配置属性解析器
 		RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
 				context.getEnvironment(), "spring.cache.");
 		if (!resolver.containsProperty("type")) {
 			return ConditionOutcome.match(message.because("automatic cache type"));
 		}
+		// 缓存类型
 		CacheType cacheType = CacheConfigurations
 				.getType(((AnnotationMetadata) metadata).getClassName());
 		String value = resolver.getProperty("type").replace('-', '_')
